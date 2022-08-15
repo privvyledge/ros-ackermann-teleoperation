@@ -1,0 +1,28 @@
+# safety limits
+max_speed: 10.0  # m/s. The maximum longitudinal velocity allowed.
+max_acceleration: 2.0  # [0, 1]. The scale for the joystick accelerator pedal. ToDo: fix with below.
+max_acceleration_actuation: 1 # [0, 100]. The maximum percentage for the actuators. ToDo: fix.
+max_brake_actuation: 1 # ToDO: fix.
+max_steering_angle: 0.49  # rads. The maximum rotation of the tires allowed about the z-axis.
+max_steering_wheel_angle: 470  # degrees. The maximum rotation of the steering wheel allowed about the x-axis.
+clip_steering_angle: false
+speed_increment: 0.44704
+svel: 0.0 # constant angular velocity for the steering wheel angle command.
+
+# autonomy commands
+ignore: false
+enable: true
+count: false
+global_enable_status: false
+global_disable_status: false
+
+# joystick settings
+unify_speed_increment_and_pedals: false
+coast_mode: false
+mirror_speed_with_gear_command: True
+
+# publishing settings:
+message_pub_mode: 'all'
+pub_dbw_message: true
+stamped: true
+control_type: 'closed_loop_vehicle'

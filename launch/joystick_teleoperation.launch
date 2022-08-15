@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- DBW system -->
+  <node ns="vehicle" pkg="raptor_dbw_can" type="dbw_node" name="dbw" output="screen">
+    <param name="dbw_dbc_file" textfile="$(find raptor_dbw_can)/New_Eagle_DBW_3.3.388.dbc" />
+    <remap from="can_tx" to="/can0/can_rx" />
+    <remap from="can_rx" to="/can0/can_tx" />
+  </node>
+
+  <arg name="can_hardware_id" default="18291" />
+  <arg name="can_circuit_id" default="0" />
+  <arg name="can_bit_rate" default="500000" />
+
+  <node ns="can0" pkg="kvaser_interface" type="kvaser_can_bridge" name="kvaser_can_bridge">
+    <param name="can_hardware_id" value="$(arg can_hardware_id)" />
+    <param name="can_circuit_id" value="$(arg can_circuit_id)" />
+    <param name="can_bit_rate" value="$(arg can_bit_rate)" />
+  </node>
+
+  <!-- Joystick demo -->
+<arg name="ignore" default="false" />
+<arg name="enable" default="true" />
+<arg name="count" default="true" />
+<arg name="svel" default="0.0" />
+<arg name="speed_increment" default="0.44704" />
+<arg name="max_acceleration_actuation" default="20" />
+<arg name="max_speed" default="10" />
+<node ns="vehicle" pkg="raptor_dbw_joystick_speed_demo" type="joystick_teleoperation_node.py" name="joystick_teleop" output="screen">
+  <!-- Ignore driver overrides -->
+  <param name="ignore" value="$(arg ignore)" />
+  <!-- Enable buttons -->
+  <param name="enable" value="$(arg enable)" />
+  <!-- Watchdog counter -->
+  <param name="count" value="$(arg count)" />
+  <!-- Steering velocity limit -->
+  <param name="svel" value="$(arg svel)" />
+  <!-- Speed Increment -->
+  <param name="speed_increment" value="$(arg speed_increment)" />
+  <!-- Max Speed -->
+  <param name="max_speed" value="$(arg max_speed)" />
+  <!-- Max Acceleration Actuation in percentage. Default = 100% -->
+  <param name="max_acceleration_actuation" value="$(arg max_speed)" />
+</node>
+
+<!-- Joystick driver -->
+<arg name="dev" default="/dev/input/js0" />
+<node pkg="joy" type="joy_node" name="joy_node" output="screen">
+<param name="dev" value="$(arg dev)" />
+<param name="deadzone" value="0.01" />
+<param name="autorepeat_rate" value="50.0" />
+</node>
+
+</launch>
